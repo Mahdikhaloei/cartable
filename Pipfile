@@ -1,0 +1,52 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+python-slugify = "==8.0.1"
+pillow = "==9.5.0"
+argon2-cffi = "==21.3.0"
+faker = "==18.9.0"
+requests = "~=2.31.0"
+sentry-sdk = "==1.23.0"
+django = "==4.2"
+django-environ = "==0.10.0"
+django-stubs = "==4.2.0"
+drf-exceptions-hog = "==0.4.0"
+djangorestframework = "==3.14.0"
+django-cors-headers = "==4.0.0"
+djangorestframework-simplejwt = "==5.2.2"
+drf-yasg = "==1.21.5"
+werkzeug = {version = "==2.3.4", extras = ["watchdog"]}
+ipdb = "==0.13.13"
+psycopg2 = "==2.9.6"
+watchfiles = "==0.19.0"
+mypy = "==1.2.0"
+djangorestframework-stubs = "==3.14.0"
+flake8 = "==6.0.0"
+flake8-isort = "==6.0.0"
+flake8-quotes = "==3.3.2"
+coverage = "==7.2.5"
+pylint-django = "==2.5.3"
+pre-commit = "==3.3.1"
+factory-boy = "==3.2.1"
+django-debug-toolbar = "==4.0.0"
+django-extensions = "==3.2.1"
+django-coverage-plugin = "==3.0.0"
+cryptography = "==35.0.0"
+openai = "*"
+chromadb = "*"
+scikit-learn = "*"
+langchain = "==0.0.225"
+django-admin-sortable2 = "*"
+django-json-widget = "*"
+google-cloud-translate = "==2.0.1"
+django-admin-extra-buttons = "==1.5.5"
+ruff = "*"
+django-storages = "==1.14.2"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"

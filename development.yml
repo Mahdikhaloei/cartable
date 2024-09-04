@@ -1,0 +1,44 @@
+version: "3"
+
+volumes:
+  postgres_data_dev: {}
+  postgres_data_backups_dev: {}
+  cartable_dev_media: {}
+
+services:
+  cartable_dev: &cartable
+    build:
+      context: .
+      dockerfile: ./compose/development/cartable/Dockerfile
+
+    image: cartable_dev
+    container_name: cartable_dev
+    volumes:
+      - cartable_dev_media:/app/core/media
+      - ./core/staticfiles:/app/core/staticfiles
+    networks:
+      cartable_network:
+        aliases:
+          - cartable
+    ports:
+      - "8002:8002"
+    depends_on:
+      - postgres_dev
+    env_file:
+      - ./.envs/.development/.cartable
+      - ./.envs/.development/.postgres
+    command: /start
+
+  postgres_dev:
+    image: postgres:14
+    container_name: cartable_postgres_dev
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+      - postgres_data_backups_dev:/backups
+    networks:
+      cartable_network:
+    env_file:
+      - ./.envs/.development/.postgres
+
+networks:
+  cartable_network:

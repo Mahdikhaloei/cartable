@@ -1,0 +1,28 @@
+version: "3"
+
+volumes:
+  cartable_prod_media: {}
+
+services:
+  cartable_prod:
+    build:
+      context: .
+      dockerfile: ./compose/production/cartable/Dockerfile
+
+    image: cartable_prod
+    container_name: cartable_prod
+    volumes:
+      - cartable_prod_media:/app/core/media
+      - ./core/staticfiles:/app/core/staticfiles
+    networks:
+      cartable_network:
+        aliases:
+          - cartable
+    ports:
+      - "8002:8002"
+    env_file:
+      - ./.envs/.production/.cartable
+    command: /start
+
+networks:
+  cartable_network:
