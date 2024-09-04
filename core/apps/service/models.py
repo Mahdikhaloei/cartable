@@ -8,7 +8,7 @@ class ServiceStepValue(Timestampable):
     image = models.ImageField(_("image"), upload_to="services/step_values", null=True, blank=True)
 
     def __str__(self) -> str:
-        return f"{self.pk}: {self.value}"
+        return f"{self.pk}: {self.title}"
 
     class Meta:
         verbose_name = _("Service Step Value")
