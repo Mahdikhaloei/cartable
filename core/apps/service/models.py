@@ -26,3 +26,7 @@ class ServiceStep(Timestampable, Sortable):
     class Meta:
         verbose_name = _("Service Step")
         verbose_name_plural = _("Service Steps")
+
+    @property
+    def get_values(self) -> list[str]:
+        return [str(value) for value in self.values.all()]
