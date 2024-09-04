@@ -4,6 +4,7 @@ from typing import Generic, TypeVar
 from django.core.cache import cache
 from django.db import models
 from django.utils.text import slugify
+from django.utils.translation import gettext_lazy as _
 
 TModel = TypeVar("TModel")
 
@@ -98,3 +99,16 @@ class Permalinkable(models.Model):
             "of type char or override `self.slug_source()` function"
         )
         return getattr(self, "title", "")
+
+
+class Sortable(models.Model):
+    order = models.IntegerField(
+        default=0,
+        blank=False,
+        null=False,
+        editable=True,
+        db_index=True,
+        verbose_name=_("order"))
+
+    class Meta:
+        abstract = True
