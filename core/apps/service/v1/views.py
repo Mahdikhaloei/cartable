@@ -1,8 +1,8 @@
 from apps.service.models import Service
 from apps.service.v1.serializers import ServiceSerializer
-from core.utils.mixins.viewsets import MultipleFieldLookupMixin
 from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import ModelViewSet
+from utils.mixins.viewsets import MultipleFieldLookupMixin
 
 
 class ServiceViewSet(MultipleFieldLookupMixin, ModelViewSet):
