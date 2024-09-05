@@ -1,3 +1,6 @@
+import time
+
+from apps.user.forms import User
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from utils.mixins.models import Sortable, Timestampable
@@ -62,12 +65,18 @@ class Service(Timestampable, Sortable):
         return [str(step) for step in self.steps.all()]
 
 
-class RequestStatus(Timestampable):
+class ServiceStatus(Timestampable):
     """
-    RequestStatus model for Cartable.
+    Servie Status model for Cartable.
     """
     title = models.CharField(_("title"), max_length=255)
     description = models.TextField(_("description"), null=True, blank=True)
+    service = models.ForeignKey(
+        Service,
+        on_delete=models.CASCADE,
+        related_name="service_statuses",
+        verbose_name=_("service")
+    )
 
     def __str__(self) -> str:
         return f"{self.pk}: {self.title}"
@@ -75,3 +84,58 @@ class RequestStatus(Timestampable):
     class Meta:
         verbose_name = _("Request Status")
         verbose_name_plural = _("Request Statuses")
+
+
+class Request(Timestampable):
+    """
+    Request model for Cartable.
+    """
+    service = models.ForeignKey(
+        Service,
+        on_delete=models.CASCADE,
+        related_name="requests",
+        verbose_name=_("service")
+    )
+    status = models.ForeignKey(
+        ServiceStatus,
+        on_delete=models.CASCADE,
+        related_name="requests",
+        verbose_name=_("status")
+    )
+    creator = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="created_requests",
+        verbose_name=_("creator"),
+        null=True,
+        blank=True
+    ),
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="requests",
+        verbose_name=_("user")
+    )
+    tracking_code = models.CharField(_("reacking code"), max_length=255, null=True, blank=True)
+    data = models.JSONField(_("data"), null=True, blank=True)
+    viewed_by_admin = models.BooleanField(_("viewed by admin"), default=False)
+
+    def __str__(self) -> str:
+        return f"Request: {self.tracking_code} - {self.service} - {self.user}"
+
+    def save(self, *args, **kwargs):
+        if not self.tracking_code:
+            self.tracking_code = self.generate_tracking_code()
+        super().save(*args, **kwargs)
+
+    def change_status_alert(self, status):
+        pass
+
+    def generate_tracking_code(self):
+        timestamp = int(time.time())
+        tracking_code = f"{timestamp}-{self.id}"
+        return tracking_code
+
+    class Meta:
+        verbose_name = _("Request")
+        verbose_name_plural = _("Requests")
