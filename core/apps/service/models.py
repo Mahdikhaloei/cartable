@@ -4,6 +4,9 @@ from utils.mixins.models import Sortable, Timestampable
 
 
 class ServiceStepValue(Timestampable):
+    """
+    Service Step Value model for Cartable.
+    """
     title = models.CharField(_("title"), max_length=255)
     image = models.ImageField(_("image"), upload_to="services/step_values", null=True, blank=True)
 
@@ -16,6 +19,9 @@ class ServiceStepValue(Timestampable):
 
 
 class ServiceStep(Timestampable, Sortable):
+    """
+    Service Step model for Cartable.
+    """
     title = models.CharField(_("title"), max_length=255)
     description = models.TextField(_("description"), null=True,blank=True)
     values = models.ManyToManyField(ServiceStepValue, verbose_name=_("values"), related_name="steps", blank=True)
@@ -34,6 +40,9 @@ class ServiceStep(Timestampable, Sortable):
 
 
 class Service(Timestampable, Sortable):
+    """
+    Service model for Cartable.
+    """
     title = models.CharField(_("title"), max_length=255)
     excerpt = models.CharField(_("excerpt"), max_length=255, null=True, blank=True)
     description = models.TextField(_("description"), null=True, blank=True)
@@ -51,3 +60,18 @@ class Service(Timestampable, Sortable):
     @property
     def get_steps(self) -> list[str]:
         return [str(step) for step in self.steps.all()]
+
+
+class RequestStatus(Timestampable):
+    """
+    RequestStatus model for Cartable.
+    """
+    title = models.CharField(_("title"), max_length=255)
+    description = models.TextField(_("description"), null=True, blank=True)
+
+    def __str__(self) -> str:
+        return f"{self.pk}: {self.title}"
+
+    class Meta:
+        verbose_name = _("Request Status")
+        verbose_name_plural = _("Request Statuses")
